@@ -1,0 +1,14 @@
+.Order {
+	width: 80%;
+	border: 3px solid #3d3b18;
+	box-shadow: 0 2px 3px #ccc;
+	padding: 10px;
+	margin: 10px auto;
+	box-sizing: border-box;
+}
+.BurgerSection {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
