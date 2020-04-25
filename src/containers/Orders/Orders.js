@@ -29,16 +29,11 @@ class Orders extends Component {
 	}
 
 	render() {
-		return (
-			<div>
-				{this.state.orders.map((order) => (
-					<Order 
-                     key={order.id}
-                     ingredients={order.ingredients} 
-                     price={order.price} />
-				))}
-			</div>
-		);
+		const orders = this.state.orders.map((order) => (
+			<Order key={order.id} ingredients={order.ingredients} price={order.price} />
+		));
+		orders.reverse();
+		return <div>{orders}</div>;
 	}
 }
 

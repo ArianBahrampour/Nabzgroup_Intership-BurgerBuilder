@@ -6,13 +6,7 @@ import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.module.css';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
-
-const INGREDIENTS_PRICES = {
-	salad: 0.5,
-	cheese: 0.4,
-	meat: 1.3,
-	bacon: 0.7,
-};
+import { connect } from 'react-redux';
 
 class ContactData extends Component {
 	state = {
@@ -105,17 +99,13 @@ class ContactData extends Component {
 	orderHandler = (event) => {
 		event.preventDefault();
 
-		let price = 4;
-		for (let ing in this.props.ingredients) {
-			price += INGREDIENTS_PRICES[ing] * this.props.ingredients[ing];
-		}
 		const formData = {};
 		for (let formElement in this.state.orderForm) {
 			formData[formElement] = this.state.orderForm[formElement].value;
 		}
 		const order = {
 			ingredients: this.props.ingredients,
-			price: price.toFixed(2),
+			price: this.props.totalPrice.toFixed(2),
 			orderData: formData,
 		};
 		this.setState({ loading: true });
@@ -205,4 +195,11 @@ class ContactData extends Component {
 	}
 }
 
-export default withRouter(ContactData);
+const mapStateToProps = (state) => {
+	return {
+		ingredients: state.burger.ingredients,
+		totalPrice: state.burger.totalPrice,
+	};
+};
+
+export default connect(mapStateToProps)(withRouter(ContactData));
