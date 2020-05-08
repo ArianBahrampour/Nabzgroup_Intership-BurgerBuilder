@@ -9,6 +9,8 @@ import Input from '../../../components/UI/Input/Input';
 import {connect} from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as contactDataActions from '../../../store/actions';
+import {checkValidation} from '../../../shared/utility';
+
 class ContactData extends Component {
     state = {
         orderForm: {
@@ -47,7 +49,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLegth: 5,
+                    minLength: 5,
                     maxLength: 5,
                 },
                 valid: false,
@@ -75,6 +77,7 @@ class ContactData extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    isEmail: true,
                 },
                 valid: false,
                 touched: false,
@@ -112,23 +115,6 @@ class ContactData extends Component {
         this.props.onOrderBurger(order, this.props.token);
     };
 
-    checkValidation = (value, rules) => {
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLegth) {
-            isValid = value.length >= rules.minLegth && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.minLegth && isValid;
-        }
-        return isValid;
-    };
-
     inputChangedHandler = (event, inputIdentifier) => {
         const updatedOrderForm = {
             ...this.state.orderForm,
@@ -136,7 +122,7 @@ class ContactData extends Component {
         const updatedFormElement = {...updatedOrderForm[inputIdentifier]};
 
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidation(
+        updatedFormElement.valid = checkValidation(
             updatedFormElement.value,
             updatedFormElement.validation
         );
